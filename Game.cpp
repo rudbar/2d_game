@@ -13,6 +13,19 @@ void Game::initWindow()
 	this->videoMode.width = 800;
 
 	this->window = new sf::RenderWindow(this->videoMode, "Game", sf::Style::Titlebar | sf::Style::Close);
+
+	this->window->setFramerateLimit(60);
+}
+
+void Game::initEnemies()
+{
+	this->enemy.setPosition(10.f, 10.f);
+	this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+	this->enemy.setScale(sf::Vector2f(0.5f, 0.5f));
+	this->enemy.setFillColor(sf::Color::Cyan);
+	this->enemy.setOutlineColor(sf::Color::Blue);
+	this->enemy.setOutlineThickness(1.f);
+
 }
 
 //Constructor and destructor
@@ -20,6 +33,7 @@ Game::Game()
 {
 	this->initVariables();
 	this->initWindow();
+	this->initEnemies();
 }
 
 
@@ -35,6 +49,11 @@ const bool Game::running() const
 }
 
 //functions
+void Game::spawnEnemy()
+{
+
+}
+
 void Game::pollEvents()
 {
 	//Events handling
@@ -53,9 +72,33 @@ void Game::pollEvents()
 	}
 }
 
+void Game::updateMousePositions()
+{
+	/*
+	@ returns void
+
+	updates mouse cursor position inside the current window (vector2i)
+	*/
+
+	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+}
+
+void Game::updateEnemies()
+{
+}
+
 void Game::update()
 {
 	this->pollEvents();
+
+	this->updateMousePositions();
+
+	this->updateEnemies();
+}
+
+void Game::renderEnemies()
+{
+	
 }
 
 void Game::render()
@@ -68,8 +111,10 @@ void Game::render()
 	- displays the new updated game objects
 	*/
 	//Clears the window
-	this->window->clear(sf::Color(255, 0, 0, 255));
+	this->window->clear();
 
 	//Draws the game
+	this->renderEnemies();
+
 	this->window->display();
 }
